@@ -3,17 +3,24 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["POST","GET"])
 def hello_world():
-    user =request.args.get("un")
-    password =request.args.get("pw")
-    print(user)
-    if user == None:
-    
+
+        
+    if request.method == "GET":
+
         return render_template("index.html")
-    elif user == "admin" and password == "monkeys":
-        return "Hello to the admin"
-    
-    else: 
-        return "hello " + user
+
+    else:
+        user = request.form["un"]
+        password = request.form["pw"]
+        print(user)
+        if user == "admin" and password == "monkeys":
+            return "Hello Admin"
+        else:
+            return "Hello " + user
+        
+
+
+
 app.run(host="0.0.0.0",debug=True)
